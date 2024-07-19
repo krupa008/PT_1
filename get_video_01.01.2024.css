@@ -1,0 +1,317 @@
+
+    .video-container {
+        column-count: 3;
+        column-gap: 5px;
+        margin-bottom: 10px;
+    }
+
+    .video-block {
+        display: block;
+    }
+
+    .video-block {
+        width: 99%;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        position: relative;
+        cursor: pointer;
+        overflow: hidden;
+        position: relative;
+        
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .video-block    {
+        margin-bottom: 30px;
+        background: #fff;
+        margin-left: 10px;
+        width: 98%;
+    }
+}
+
+        .video-block .article-product {
+        opacity: 0; /* Скрываем кнопку по умолчанию */
+        transition: opacity 0.3s; /* Добавим плавный переход */
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .video-block .article-product {
+        opacity: 1;
+        font-size: 45px;
+        margin: 10px;
+        margin-right: 20px;
+        margin-bottom: 20px; 
+        }
+    }
+
+    .video-block:hover .article-product {
+        opacity: 1; /* Показываем кнопку при наведении на блок */
+    }
+
+    .video-block:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        border-color: #ddd;
+    }
+
+    .video-preview {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        padding: 10px;
+        border-radius: 8px;
+        box-sizing: border-box;
+        background-color: #333;
+    }
+
+    .video-block h2 {
+        margin-top: 0;
+        font-size: 16px; /* Уменьшенный размер шрифта */
+        padding: 10px;
+    }
+
+    @media only screen and (max-width: 1000px) {
+            .video-block h2 {
+            font-size: 45px;
+            margin-top: 30px; 
+            margin-bottom: -15px;
+                }
+            }
+
+    .video-block p {
+        font-size: 15px;
+        padding: 10px;
+        
+        width: calc(100% - 20px); 
+        word-wrap: break-word; 
+        margin-top: -25px; 
+        margin-bottom: -5px; 
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .video-block p {
+            font-size: 40px; 
+            padding: 10px;
+            width: 100%; 
+            text-align: left; 
+            margin-top: 0; 
+            margin-bottom: 10px; 
+        }
+    }
+
+    .video-title {
+        margin-top: 0;
+        font-size: 16px; 
+        padding: 10px;
+        text-align: center; 
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .video-title {
+        padding: 1px;
+        }
+    }
+
+    .video-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 8px;
+        z-index: 9999;
+        display: none;
+    }
+
+    .video-modal iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 8px;
+    }
+
+        .article-product {
+        background-color: #96bf48;
+        color: #fff;
+        border: none;
+        padding: 5px 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 14px;
+        margin: 10px;
+        float: right;
+        margin-top: -10px;
+    }
+
+    .article-product:hover {
+        background-color: #4b7008;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .article-product {
+            display: block;
+            margin: 10px auto; /* Центрировать кнопку при отображении на мобильных устройствах */
+            position: relative; /* Вернуть нормальное позиционирование */
+           
+        }
+    }
+
+    
+    .youtube-button {
+        width: 30px;
+        height: 20px;
+        background: url('play_button_youtube.png') no-repeat center center;
+        background-size: contain;
+        margin-right: 5px;
+        
+    }
+
+    @media only screen and (max-width: 1000px) {
+    .youtube-button {
+        width: 30px;
+        height: 20px;
+        background: url('play_button_youtube.png') no-repeat center center;
+        background-size: contain;
+        margin-right: 5px;
+        opacity: 1;
+        
+        }
+    }
+
+
+    .video-details {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 10px;
+    }
+
+    .video-channel-date {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: calc(100% - 15px);
+        margin-left: 5px;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .video-channel-date {
+            margin-bottom:-20px;
+        }
+    }
+
+
+
+    .video-channel-date p {
+        margin: -40px; 
+        display: inline; 
+        text-align: center;
+        flex-grow: 1; /* Растягивание элемента */
+        overflow: hidden; /* Скрытие содержимого, которое не помещается */
+        text-overflow: ellipsis; /* Отображение многоточия для обрезанного текста */
+        white-space: nowrap; /* Предотвращение переноса на новую строку */
+        margin-right:70px;   
+    
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .video-channel-date p {
+            margin-right:0px;
+        }
+    }
+
+    .video-date {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: right;
+        margin-right: 0;
+        margin-left: -150px;    
+        }
+
+
+    .video-description, .video-channel, .video-date {
+        display: block;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        /* margin-inline-start: 0; */
+        margin-inline-end: 0;
+        color: #666; /* Цвет текста */
+        font-size: 15px;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .video-description {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 4; /* Указывает максимальное количество строк для отображения */
+            max-height: 3em; /* Устанавливает максимальную высоту блока */
+            text-align: left; /* Выравнивание текста по левому краю */
+        }    
+    }
+
+    .article-product:active {
+        transform: scale(0.95); /* Уменьшение кнопки при активации */
+    }
+
+
+    @media only screen and (max-width: 1000px) {
+        .video-container {
+            column-count: 1;
+            background: #f0f8ea;
+        }
+
+        .video-date {
+            font-size: 30px;
+        }
+    }
+
+    @media only screen and (min-width: 1001px) and (max-width: 1300px) {
+        .video-container {
+            column-count: 2;
+        }
+    }
+
+
+    @media only screen and (min-width: 1301px) and (max-width: 1500px) {
+        .video-container {
+            column-count: 3;
+        }
+    }
+
+
+    @media only screen and (min-width: 1501px) {
+        .video-container {
+            column-count: 4;
+        }
+    }
+    
+    .video-block .youtube-button {
+        display: none;
+        position: absolute;     
+        width: 30px; 
+        height: 20px; 
+        background: url('play_button_youtube.png') no-repeat center center;
+        background-size: contain;
+        cursor: pointer;
+        transition: opacity 0.3s;
+    }
+
+    .video-block:hover .youtube-button {
+        display: block;
+    }
+
+    .like-button,
+    .dislike-button,
+    .save-button,
+    .view-count {
+        margin-right: 0;
+        margin-top: 150px;   
+    }
+    
+
