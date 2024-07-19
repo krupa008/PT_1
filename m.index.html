@@ -1,0 +1,855 @@
+<?php
+session_start();
+
+if (isset($_SESSION['user_id'])) {
+    header('Location: index_login.php');
+    exit();
+}
+?>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TakePress: Информация и Покупки на Первом Медиа-Маркетплейсе</title>
+    <link rel="stylesheet" href="index.css">
+
+
+    <style>
+        /* Общий CSS */
+
+        .main-page img {
+            width: 65px;
+            height: 65px;
+            display: block;
+            margin: 10px 40px;
+            background-color: #ddd;
+        }
+        .main-page p {
+            margin: 5px;
+            font-size: 30px
+        }
+
+        .search {
+            text-align: center;
+        }
+        .search img {
+            width: 65px;
+            height: 65px;
+            display: block;
+            margin: 10px 40px;
+            background-color: #ddd;
+        }
+        .search p {
+            margin: 5px 0;
+            font-size: 30px
+        }
+
+        .heart {
+            text-align: center;
+        }
+        .heart img {
+            width: 75px;
+            height: 75px;
+            display: block;
+            margin: 1px 40px;
+            background-color: #ddd;
+        }
+        .heart p {
+            margin: 7px 0;
+            font-size: 30px
+        }
+
+
+        .catalog {
+            text-align: center;
+        }
+        .catalog img {
+            width: 75px;
+            height: 75px;
+            display: block;
+            margin: 1px 40px;
+            background-color: #ddd;
+        }
+        .catalog p {
+            margin: 7px 0;
+            font-size: 30px
+        }
+
+        .video-modal {
+            max-width: 100%;
+            width: 100%;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            z-index: 9999;
+            display: none;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Для соотношения 16:9 */
+        .video-modal:before {
+            content: "";
+            display: block;
+            padding-top: 56.25%; /* 9/16*100 = 56.25% */
+        }
+
+        .video-modal iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            border: none;
+            border-radius: 8px;
+        }
+
+
+        .dark-mode header {
+            background-color: #222;
+        }
+
+
+        header {
+            background-color: #333;
+            color: #333;
+            text-align: center;
+            padding: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+
+        .logo img {
+            width: 90px;
+            height: 80px;
+            margin-right: 1px;
+            background-color: #333;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background-color: #333;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 30px
+
+        }
+
+        nav ul li a:hover {
+            background-color: #4a4a4a;
+        }
+
+        .login-button {
+            background: none;
+            cursor: pointer;
+            border: none;
+            width: 100px;
+            height: 100px;
+            padding: 0;
+
+        }
+
+        .login-image {
+            width: 80px;
+            height: 80px;
+            padding: 0;
+            display: block;
+            margin: 0 auto;
+            margin-right: 10px;
+            background-color: #333;
+        }
+
+        .login-button:hover {
+            background-color: #4b7008;
+        }
+
+        .hidden {
+            display: none;
+
+            }
+
+            #search-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            z-index: 9999;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 180px;
+            margin-right: 20px;
+        }
+
+        .search-input {
+            width: 80%;
+            padding: 10px;
+            font-size: 45px;
+            flex: 1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-left: 5px;
+            margin-right: 5px;
+            }
+
+        .search-btn {
+            background-color: #96bf48;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            font-size: 50px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+            margin-right: 20px;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #f0f8ea;
+            font-family: Arial, sans-serif;
+            /* overflow: hidden; */
+
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+
+        footer {
+            background-color: #ddd;
+            color: #666;
+            text-align: center;
+            width: 100%;
+            padding-bottom: 0;
+            position: fixed;
+            bottom: 0;
+        }
+
+        .main-container {
+            flex-grow: 1;
+            display: flex;
+            flex-grow: 1;
+            justify-content: space-between;
+            min-height: 100vh;
+        }
+
+        .products,
+        .article {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            /* padding: 5px; */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            /* margin: 1px; */
+            /* max-height: 12%; */
+            overflow: auto;
+
+            padding: 10px;
+        }
+
+
+
+        .carousel-container {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        z-index: 1;
+        height: max-content;
+        padding-bottom: 200px;
+    }
+
+    .bottom-container {
+    flex: 1;
+    background-color: #ddd;
+    color: #666;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+}
+
+    .article {
+                flex: 0 0 auto;
+                /* width: 101%; */
+                width: 100%;
+                scroll-snap-align: start;
+            }
+
+
+            .products {
+                flex: 0 0 auto;
+                /* width: 97%; */
+                width: 100%;
+                scroll-snap-align: start;
+            }
+
+        .load-more-videos-btn {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 45px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .load-more-prod-btn {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 30px 20px;
+            font-size: 45px;
+            border: none;
+            border-radius: 5px;
+
+        }
+
+    </style>
+
+
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <div class="container">
+                <nav class="header__nav">
+                    <a href="m.index.php" class="header__logo">
+                        <img src="img/logo.png" alt="Logo">
+                    </a>
+                        <ul class="header__list">
+                            <li class="header__item"><a class="header__link" href="m.index.php">Главная</a></li>
+                            <li class="header__item"><a class="header__link" href="info.php">О нас</a></li>
+                            <li class="header__item"><a class="header__link" href="контакты.html">Контакты</a></li>
+                        </ul>
+                        <a class="login-button" onclick="window.location.href='login.php'">
+                            <!-- <img src="img/login.png" alt="Login"> -->
+                            <svg xmlns="http://www.w3.org/2000/svg"  fill="#fff" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+                                <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                            </svg>
+                        </a>
+                    <div class="header__burger">
+                        <span></span>
+                    </div>
+                </nav>
+            </div>
+            <div class="header__mobile">
+                <ul class="header__mobile-list">
+                    <li class="header__item"><a class="header__link" href="#">Главная</a></li>
+                    <li class="header__item"><a class="header__link" href="#">О нас</a></li>
+                    <li class="header__item"><a class="header__link" href="#">Контакты</a></li>
+                </ul>
+                <a class="header__mobile-login" onclick="window.location.href='login.php'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="29px" height="28px" fill="#fff" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+                        <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                    </svg>
+                </a>
+            </div>
+        </header>
+
+        <main>
+            <section class = "category-menu">
+                <div class="container">
+                    <!-- <h2>Category-menu</h2> -->
+                    <h2 class="video-title">GoPro Hero 9 Black - Тест на байке - Hypersmooth 3.0 - Обзор на русском 4K 60 FPS / часть 2</h2>
+                </div>
+            </section>
+
+            <div class="carousel-container">
+                <div class="container">
+                    <div class="carousel__wrap">
+                        <div class="article">
+                            <div id="article-container"> </div>
+                            <button class="load-more-videos-btn" id="load-more-videos-btn">Загрузить ещё</button>
+                        </div>
+
+                        <div class="products">
+                            <div id="products-container"> </div>
+                            <button class="load-more-prod-btn" id="load-more-prod-btn">Загрузить ещё</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class = "bottom-container">
+                    <div class="container">
+                        <ul class="bottom-menu">
+                            <li class="bottom-menu__item main-page">
+                                <a class="main-page__link" onclick="window.location.href='m.index.php'">
+                                    <!-- <img src="img/home.jpg" alt="Кнопка меню"> -->
+                                     <div class="main-page__svg">
+                                        <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                                            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+                                        </svg>
+                                     </div>
+                                    <p>Главная</p>
+                                </a>
+                            </li>
+                            <li class="bottom-menu__item search" onclick="toggleSearchContainer()">
+                                <!-- <img src="img/search.jpg" alt="Поиск"> -->
+                                 <div class="search__svg">
+                                    <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                    </svg>
+                                 </div>
+                                <p>Поиск</p>
+                            </li>
+
+                            <li class="bottom-menu__item heart">
+                                <!-- <img src="img/heart.jpg" alt="Избранное"> -->
+                                 <div class="heart__svg">
+                                    <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                                    </svg>
+                                 </div>
+                                <p>Избранное</p>
+                            </li>
+
+                            <li class="bottom-menu__item catalog">
+                                <!-- <img src="catalog.png" alt="Категории"> -->
+                                 <div class="catalog__svg">
+                                    <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                                        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                                        <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                                    </svg>
+                                 </div>
+                                <p>Категории</p>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+        </main>
+
+             <!--
+        <div id="search-bar" class="hidden">
+            <form id="search-form">
+                <input type="text" id="search-input" class="search-input" placeholder="Введите запрос">
+                <button id="search-btn" class="search-btn" type="submit">Искать</button>
+            </form>
+        </div>
+        -->
+        <!-- <footer>fff</footer> -->
+    </div>
+
+
+
+<!--burger menu-->
+<script>
+    const mobileMenu = document.querySelector('.header__mobile')
+    const burgerMenu = document.querySelector('.header__burger');
+    // var overlay = document.getElementById('menu');
+    burgerMenu.addEventListener('click',() => {
+        burgerMenu.classList.toggle("close");
+        mobileMenu.classList.toggle("open");
+    });
+</script>
+
+<!--scroll header-->
+<!-- <script>
+window.addEventListener('scroll', () =>  {
+    const header = document.querySelector('.header'),
+    windowScroll = window.pageYOffset;
+
+        if (windowScroll > 80) {
+            header.classList.add('fixed');
+        }  else {
+            header.classList.remove('fixed');
+        }
+    }
+)
+</script> -->
+
+
+
+    <script>
+        fetch('get_video_01.01.2024.php')
+        .then(response => response.text())
+        .then(data => {
+
+            const articlesContainer = document.getElementById('article-container');
+
+            articlesContainer.innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Ошибка при получении данных:', error);
+        });
+    </script>
+
+
+
+
+<script>
+        fetch('m.get_product_01.01.2024.php')
+        .then(response => response.text())
+        .then(data => {
+
+            const articlesContainer = document.getElementById('products-container');
+
+            articlesContainer.innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Ошибка при получении данных:', error);
+        });
+    </script>
+
+
+
+    <script>
+        function toggleSearchContainer() {
+            const searchBar = document.getElementById('search-bar');
+            searchBar.classList.toggle('hidden');
+        }
+
+        function performSearch(event) {
+
+            event.preventDefault(); // Предотвращаем отправку формы
+            const searchInputValue = document.getElementById('search-input').value;
+            console.log('Выполняется поиск с запросом: ', searchInputValue);
+        }
+
+        // Добавляем обработчик события отправки формы
+        document.getElementById('search-form').addEventListener('submit', performSearch);
+    </script>
+
+
+
+    <script>
+        window.addEventListener('scroll', function() {
+    // Проверяем, достигли ли мы конца страницы
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+
+        location.reload();
+    }
+});
+    </script>
+
+    <!-- Для загружки еще 5 Товаров -->
+    <script>
+        // Для загружки еще 5 Товаров
+                document.addEventListener("DOMContentLoaded", function() {
+            var loadMoreButton = document.getElementById("load-more-prod-btn");
+            var productsContainer = document.getElementById("products-container");
+            var sequenceContainer = document.getElementById("sequence-container"); // Контейнер для отображения порядковых номеров
+            var videoID = "<?php echo isset($_GET['videoID']) ? $_GET['videoID'] : '' ?>";
+            var loadedProductsCount = 0; // Переменная для отслеживания загруженных товаров
+            var loadedProductIDs = []; // Массив для отслеживания идентификаторов товаров
+
+            function loadProducts(limit) {
+                var xhr = new XMLHttpRequest();
+                var url = "m.get_product_01.01.2024.php";
+
+                if (videoID !== '') {
+                    url += "?videoID=" + videoID + "&limit=" + limit + "&loadedProductsCount=" + loadedProductsCount;
+                } else {
+                    url += "?limit=" + limit + "&loadedProductsCount=" + loadedProductsCount;
+                }
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var newProducts = xhr.responseText;
+                            productsContainer.insertAdjacentHTML('beforeend', newProducts);
+
+                            // Обновляем количество уже загруженных товаров
+                            loadedProductsCount += (newProducts.match(/<div class="products">/g) || []).length;
+
+                            updateLoadedProductIDs();
+                            updateSequenceNumbers();
+                        } else {
+                            console.error("Ошибка загрузки товаров: " + xhr.status);
+                        }
+                    }
+                };
+
+                xhr.open("GET", url, true);
+                xhr.send();
+            }
+
+            function updateLoadedProductIDs() {
+                var products = productsContainer.querySelectorAll('.product-details');
+                products.forEach(function(product) {
+                    var productId = product.getAttribute('data-product-id');
+                    if (!loadedProductIDs.includes(productId)) {
+                        loadedProductIDs.push(productId); // Добавляем новые ID товаров в массив уже загруженных
+                    }
+                });
+            }
+
+            function updateSequenceNumbers() {
+                var sequenceItems = '';
+                var products = productsContainer.querySelectorAll('.products');
+                products.forEach(function(product, index) {
+                    sequenceItems += '<div>Товар ' + (index + 1) + '</div>'; // Создаем элемент с порядковым номером товара
+                });
+                sequenceContainer.innerHTML = sequenceItems; // Обновляем содержимое контейнера порядковых номеров
+            }
+
+            loadMoreButton.addEventListener("click", function() {
+                loadProducts(5); // Загружаем следующие 5 товаров при клике
+            });
+
+            // Загрузка первых 5 товаров при загрузке страницы, если ID не передано
+            if (videoID === '') {
+                loadProducts(5);
+            }
+        });
+    </script>
+
+
+        <!-- Загрузка еще 5 Видео -->
+    <script>
+        // Загрузка еще 5 Видео
+                document.addEventListener("DOMContentLoaded", function () {
+            var loadMoreVideosButton = document.getElementById("load-more-videos-btn");
+            var videoContainer = document.querySelector('.video-container');
+
+            async function loadVideos(limit) {
+                var videoContainer = document.querySelector('.video-container');
+                if (!videoContainer) {
+                    console.error("Контейнер для видео не найден.");
+                    return;
+                }
+
+                var videoCount = videoContainer.querySelectorAll('.video-block').length || 0;
+                var url = "get_video_01.01.2024.php";
+
+                if (videoCount !== 0) {
+                    url += "?loadedVideosCount=" + videoCount;
+                }
+
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error('Ошибка загрузки видео: ' + response.status);
+                    }
+
+                    const newVideos = await response.text();
+                    var temp = document.createElement('div');
+                    temp.innerHTML = newVideos;
+
+                    var newVideoElements = temp.querySelectorAll('.video-block');
+                    newVideoElements.forEach(function (videoElement) {
+                        videoContainer.appendChild(videoElement);
+                    });
+
+                    videoCount = videoContainer.querySelectorAll('.video-block').length;
+                } catch (error) {
+                    console.error("Произошла ошибка при загрузке видео:", error.message);
+                }
+            }
+
+            loadMoreVideosButton.addEventListener("click", function () {
+                loadVideos(5);
+            });
+
+            loadVideos(5).catch(error => console.error("Ошибка при начальной загрузке видео:", error.message));
+        });
+    </script>
+
+<!-- Для Категорий -->
+    <script>
+        function toggleCategory() {
+            var category = document.getElementById('category');
+            if (category.style.display === 'none' || category.style.display === '') {
+                category.style.display = 'block';
+            } else {
+                category.style.display = 'none';
+            }
+        }
+    </script>
+
+    <!-- для Плеера -->
+    <script>
+        // для Плеера
+        var modal = document.querySelector('.video-modal');
+        var videoPlayer = document.querySelector('.video-modal iframe');
+
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.className = 'video-modal';
+            document.body.appendChild(modal);
+
+            videoPlayer = document.createElement('iframe');
+            videoPlayer.setAttribute('allowfullscreen', '');
+            modal.appendChild(videoPlayer);
+        }
+
+        function showVideo(videoUrl) {
+            if (!event.target.closest('.article-product')) {
+                videoPlayer.src = videoUrl;
+                modal.style.display = 'block';
+                document.addEventListener('keydown', closeVideo);
+                document.addEventListener('click', closeVideo);
+            }
+        }
+
+    </script>
+
+    <!-- Подбор магазинов -->
+    <script>
+                //Подбор магазинов
+                document.addEventListener('DOMContentLoaded', function () {
+            document.body.addEventListener('click', function (event) {
+                const product = event.target.closest('.products');
+                const productId = product.querySelector('.product-details').getAttribute('data-product-id');
+                const shopOffers = product.querySelector('.shop-offers');
+
+                if (event.target.matches('.button-shops')) {
+                    if (shopOffers.classList.contains('open')) {
+                        // Если контейнер открыт, закрываем его
+                        shopOffers.style.display = 'none';
+                        shopOffers.classList.remove('open');
+                    } else {
+                        // Если контейнер закрыт, открываем его
+                        const xhr = new XMLHttpRequest();
+                        const url = 'get_shop_product.php';
+
+                        xhr.open('POST', url, true);
+                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status === 200) {
+                                    const response = xhr.responseText;
+                                    shopOffers.innerHTML = response;
+                                    shopOffers.style.display = 'block';
+                                    shopOffers.classList.add('open');
+                                } else {
+                                    console.error('Ошибка при получении данных: ' + xhr.status);
+                                }
+                            }
+                        };
+
+                        const data = 'productID=' + encodeURIComponent(productId);
+                        xhr.send(data);
+                    }
+                }
+            });
+        });
+    </script>
+
+
+    <!-- поиск товаров из видео -->
+    <script>
+            // поиск товаров из видео
+            document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('article-product')) {
+                const videoId = event.target.getAttribute('data-product-id');
+                const xhr = new XMLHttpRequest();
+                const url = 'm.get_product_01.01.2024.php';
+                const data = 'videoID=' + encodeURIComponent(videoId);
+
+                xhr.open('POST', url, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            const response = xhr.responseText;
+                            const productsContainer = document.getElementById('products-container');
+
+                            // Удаляем текущие классы и добавляем новые
+                            productsContainer.classList.remove('article');
+                            productsContainer.classList.add('products');
+
+                            // Обновляем содержимое контейнера
+                            productsContainer.innerHTML = response;
+                        } else {
+                            console.error('Ошибка при получении данных: ' + xhr.status);
+                        }
+                    }
+                };
+
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send(data);
+            }
+        });
+    </script>
+
+    <!-- поиск видео из товаров -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.button-product').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var productId = this.getAttribute('data-product-id');
+
+                    // Создаем объект XMLHttpRequest
+                    var xhr = new XMLHttpRequest();
+
+                    // Настраиваем запрос
+                    xhr.open('POST', 'get_video_01.01.2024.php', true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+                    // Отправляем запрос на сервер
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status === 200) {
+                                // Если запрос успешен, обновляем контент на странице
+                                var response = xhr.responseText;
+                                document.getElementById('articles-container').innerHTML = response;
+                            } else {
+                                console.error('Ошибка при получении данных: ' + xhr.status);
+                            }
+                        }
+                    };
+
+                    // Формируем данные для отправки (в данном случае передаем только id товара)
+                    var data = 'productID=' + encodeURIComponent(productId);
+
+                    // Отправляем запрос
+                    xhr.send(data);
+                });
+            });
+        });
+    </script>
+
+
+
+
+    <?php
+        include 'footer.php';
+    ?>
+</body>
+</html>
