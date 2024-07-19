@@ -1,0 +1,143 @@
+
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+
+
+      box-sizing:border-box;
+  }
+
+  .products-container {
+      height: 70%;
+  }
+
+  /* Используем viewport height (высоту экрана) вместо процентов */
+  .products  {
+
+      overflow-y: auto; /* Добавляем вертикальную прокрутку, если контент превышает высоту */
+      overflow-x: hidden; /* Скрываем горизонтальную прокрутку */
+  }
+
+  .products {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 30px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      background: #fff;
+      max-height: 11%;
+
+  }
+
+  .product-image img {
+      max-width: 300px;
+      height: auto;
+      margin-right: 50px;
+      margin-top: 50px;
+      margin-bottom: 50px;
+  }
+
+  .product-details {
+      flex: 1;
+      padding-left: 5px;
+
+
+  }
+
+  .product-details h3 {
+      margin-top: 0;
+      margin-bottom: 5px;
+      font-size: 30px;
+  }
+
+  .product-description {
+      color: #666;
+      font-size: 23px;
+      /* margin-bottom: 15px; */
+      min-width: 850px;
+      margin-bottom: 20px;
+  }
+  .buttons {
+    display:flex;
+    flex-direction: column;
+    row-gap:20px;
+  }
+  .button-product,
+  .button-shops {
+      background-color: #96bf48;
+      color: #fff;
+      border: none;
+      /* padding: 5px 5px; */
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 45px;
+      /* margin-right: 5px; */
+      /* margin-bottom: 15px; */
+
+      padding: 10px;
+  }
+
+  .button-product {
+      float: left;
+  }
+
+  .button-shops {
+      float: right;
+      cursor: pointer;
+  }
+
+  .button-product:hover,
+  .button-shops:hover {
+      background-color: #4b7008;
+      font-size: 45px;
+  }
+
+  .shop-offers {
+      display: none;
+      padding-top: 10px;
+      max-height: 400px;
+      overflow-y: auto;
+      width: 100%;
+  }
+
+  .shop-offer {
+      overflow: hidden;
+      white-space: normal;
+      word-wrap: break-word;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      padding: 10px 5px;
+  }
+
+  .shop-offer:last-child {
+      border-bottom: none;
+  }
+
+  .shop-offer a {
+      display: inline-block;
+      background-color: #f90;
+      color: #fff;
+      text-align: center;
+      padding: 5px 10px;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-right: 10px;
+      float:right;
+      font-size: 45px;
+      margin-top: 10px;
+  }
+
+  .shop-offer a:hover {
+      background-color: #f60;
+  }
+
+  .main {
+      background: #f0f8ea;
+  }
+
+
+
