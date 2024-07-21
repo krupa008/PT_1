@@ -331,7 +331,7 @@ img {
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #fff;
-    margin: 1px;
+    /* margin: 1px; */
     /* max-height: 80vh; */
 }
 
@@ -489,11 +489,13 @@ img {
     border-radius: 8px;
 }
 
-/* .carousel-container {
+.carousel-container {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-} */
+    height: min-content;
+    padding-bottom: 150px;
+}
 .carousel__wrap {
     display: grid;
     grid-template-columns: 70vw auto;
@@ -517,16 +519,17 @@ img {
 
 }
 
-
 .products {
     flex: 0 0 auto;
 	width: 100%;
     /* width: 97%; */
-    /* scroll-snap-align: start; */
+    scroll-snap-align: start;
 	/* padding: 30px 0; */
     border:1px solid #333;
     border-radius:10px;
     padding: 10px;
+    height: 100%;
+    padding-bottom: 150px;
 }
 
 .load-more-videos-btn {
@@ -534,7 +537,7 @@ img {
 	height: 60px;
     background-color: #4CAF50; /* Цвет фона кнопки */
     color: #fff; /* Цвет текста */
-    padding: 10px 20px; /* Внутренние отступы */
+    padding: 20px; /* Внутренние отступы */
     font-size: 24px; /* Размер шрифта */
     border: none; /* Убираем границу кнопки */
     border-radius: 5px; /* Закругляем углы кнопки */
@@ -546,7 +549,7 @@ img {
 	height: 60px;
     background-color: #4CAF50; /* Цвет фона кнопки */
     color: #fff; /* Цвет текста */
-    padding: 10px 20px; /* Внутренние отступы */
+    padding:  20px; /* Внутренние отступы */
     font-size: 24px; /* Размер шрифта */
     border: none; /* Убираем границу кнопки */
     border-radius: 5px;
